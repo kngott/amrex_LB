@@ -1,0 +1,4 @@
+#CEXE_headers += 
+CEXE_sources += main.cpp
+
+INCLUDE_LOCATIONS += $(AMREX_LB_HOME)

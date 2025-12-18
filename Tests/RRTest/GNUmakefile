@@ -1,0 +1,27 @@
+# AMREX_HOME defines the directory in which we will find all the AMReX code.
+# If you set AMREX_HOME as an environment variable, this line will be ignored
+AMREX_HOME ?= ../../../amrex
+AMREX_LB_HOME ?= ../../to_reorg/src/optimized_algorithms
+AMREX_LB_NEW ?= ../../Src
+
+#DEBUG        = TRUE
+#USE_CCACHE   = TRUE
+USE_OMP      = FALSE
+TINY_PROFILE = TRUE
+USE_MPI      = TRUE 
+USE_CUDA     = FALSE 
+BL_NO_FORT   = TRUE
+COMP         = gcc
+DIM          = 3
+
+include $(AMREX_HOME)/Tools/GNUMake/Make.defs
+
+include $(AMREX_LB_NEW)/Make.package
+include ./Make.package
+
+include $(AMREX_LB_HOME)/Make.package
+INCLUDE_LOCATIONS += $(AMREX_LB_HOME) $(AMREX_LB_NEW)
+VPATH_LOCATIONS   += $(AMREX_LB_HOME) $(AMREX_LB_NEW)
+
+include $(AMREX_HOME)/Src/Base/Make.package
+include $(AMREX_HOME)/Tools/GNUMake/Make.rules

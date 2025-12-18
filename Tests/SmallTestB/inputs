@@ -1,0 +1,24 @@
+
+nboxes = 16 
+#domain = (256,256,256)
+#max_grid_size = (128, 128, 128)
+#max_grid_size = (16, 16, 16)
+
+nranks = 4
+#nnodes = 4
+#ranks_per_node = 1
+
+mean = 100000
+stdev = 25000 
+#stdev = 25231
+#stdev = 4523
+
+nruns = 3 
+
+tiny_profiler.print_threshold = 0
+
+#debug=True
+
+amrex.v = 1
+#DistributionMapping.verbose_mapper=1
+
