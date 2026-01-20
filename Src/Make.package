@@ -1,4 +1,4 @@
-CEXE_headers += LB_LIpair.H LB_Mapping.H LB_Sort.H LB_Util.H LB_WeightedIndex.H LB_WeightedBoxList.H
+CEXE_headers += LB_LIpair.H LB_Mapping.H LB_Sort.H LB_Util.H LB_WeightedIndex.H LB_WeightedSets.H
 CEXE_sources += LB_RoundRobin.cpp LB_Util.cpp LB_Mapping.cpp
 
 CEXE_headers += LB_RoundRobin.H

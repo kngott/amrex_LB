@@ -18,7 +18,7 @@ namespace LB {
     template<class T>
     struct WeightedIndex {
         T m_weight;
-        int m_index;
+        int m_index = -1;
 
         WeightedIndex<T> () = default;    
         WeightedIndex<T> (int i, T w) : m_index(i), m_weight(w) {}
@@ -26,7 +26,7 @@ namespace LB {
         [[nodiscard]] int index () const { return m_index; }
         [[nodiscard]] T& weight ()  { return m_weight; }
         [[nodiscard]] int& index () { return m_index;  }
- 
+
         bool operator< (const WeightedIndex<T>& rhs) const
         {
             return weight() < rhs.weight();
@@ -44,11 +44,12 @@ namespace LB {
     using DoubleWeight = WeightedIndex<double>;
 
 
-
     template<class T>
     struct WeightedVector
         : public std::vector<WeightedIndex<T>>
     {
+        int m_index = -1;
+
         WeightedVector<T> () = default;
 
         WeightedVector<T> (std::size_t n) {
@@ -63,31 +64,49 @@ namespace LB {
             set_weight(wgt);
         }
 
+        [[nodiscard]] int& index() {
+            return m_index;
+        }
+
+        // Would've preferred, e.g. vec[n, LB::Index] or vec[n, LB::Wgt].
+        // Seems like it requires user-side additions.
+        // Change if possible.
+        [[nodiscard]] int& index(int i) {
+            return (*this)[i].index();
+        }
+
+        [[nodiscard]] T& weight(int i) {
+            return (*this)[i].weight();
+        }
+
         void set_weight (std::size_t n, const T& wgt) {
             this->resize(n);
             for (int i=0; i<n; ++i) {
-                (*this)[i].index() = i;
-                (*this)[i].weight() = wgt;
+                index(i) = i;
+                weight(i) = wgt;
             }
         }
 
         void set_weight (const std::vector<T>& wgt) {
             this->resize(wgt.size());
             for (std::size_t i=0; i<wgt.size(); ++i) {
-                (*this)[i].index() = i;
-                (*this)[i].weight() = wgt[i];
+                index(i) = i;
+                weight(i) = wgt[i];
             }
         }
 
-        std::vector<int> to_vec () const {
+        [[nodiscard]] std::vector<int> to_vec () const {
             std::vector<int> map (this->size());
             for(int i=0; i<this->size(); ++i) {
-                map[i] = (*this)[i].index();
+                map[i] = index(i);
             }
             return map;
         }
 
-        amrex::DistributionMapping to_dm () const {
+        // Check if full answer is here?
+        // DM expects [0, ranks) all exist
+        // Change to hand-placing each present item, otherwise -1?
+        [[nodiscard]] amrex::DistributionMapping to_dm () const {
             std::vector<int> map = to_vec();
             amrex::DistributionMapping dm(map);
             return dm;
@@ -100,15 +119,6 @@ namespace LB {
     using IntWeightV = WeightedVector<int>;
     using DoubleWeightV = WeightedVector<double>;
 
-/*
-//  Taken from amrex_TypeTraits -- not fully tested.
-    template <class D>
-    struct IsWeightedIndex<D, std::enable_if_t<std::is_base_of_v<WeightedIndex,D>>>
-        : std::true_type {};
-
-    template <class A>
-    inline constexpr bool IsWeightedIndex_v = IsWeightedIndex<A>::value;
-*/
 }
 
 #endif

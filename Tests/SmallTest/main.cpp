@@ -1,4 +1,3 @@
-
 #include <AMReX.H>
 #include <AMReX_Random.H>
 #include <AMReX_MultiFab.H>
@@ -8,7 +7,7 @@
 #include <LB_Util.H>
 #include <LB_Sort.H>
 #include <LB_WeightedIndex.H>
-#include <LB_WeightedBoxList.H>
+#include <LB_WeightedSets.H>
 
 //#include <Knapsack.H>
 //#include <SFC.H>
@@ -58,6 +57,7 @@ void main_main() {
 
     // WeightedBox
     // ========================
+    // ========================
     LB::LongWeightV wbv;
 
     amrex::Print() << " Unsorted: " << std::endl;
@@ -67,7 +67,7 @@ void main_main() {
     }
     amrex::Print() << std::endl;
 
-    Sort(wbv, true);
+    Sort(wbv, LB::SortOrder::Ascend);
 
     amrex::Print() << " Sorted ascending: " << std::endl;
     for (int i=0; i<20; ++i) {
@@ -75,7 +75,7 @@ void main_main() {
     }
     amrex::Print() << std::endl;
 
-    Sort(wbv);
+    Sort(wbv, LB::SortOrder::Descend);
 
     amrex::Print() << " Sorted descending: " << std::endl;
     for (int i=0; i<20; ++i) {
@@ -83,35 +83,36 @@ void main_main() {
     }
     amrex::Print() << std::endl;
 
-    // WeightedRanks
+    // WeightedSubsets
     // ========================
-    std::vector<LB::WeightedBoxList> wbr(3);
+    // ========================
+    LongWeightSets lws(3);
 
     for (int i=0; i<20; ++i) {
         int r = amrex::Random_int(3);
         LongWeight wb(i, amrex::RandomNormal(1000, 100));
-        wbr[r].push_back(wb);
+        lws[r].add(wb);
     }
 
     amrex::Print() << " Unsorted: " << std::endl;
-    for (int i=0; i<wbr.size(); ++i) {
-        amrex::Print() << "(" << i << ": " << wbr[i].weight() << "), ";
+    for (int i=0; i<lws.size(); ++i) {
+        amrex::Print() << "(" << i << ": " << lws[i].total() << "), ";
     }
     amrex::Print() << std::endl;
 
-    Sort(wbr, true);
+    Sort(lws, LB::SortOrder::Ascend);
 
     amrex::Print() << " Sorted ascending: " << std::endl;
-    for (int i=0; i<wbr.size(); ++i) {
-        amrex::Print() << "(" << i << ": " << wbr[i].weight() << "), ";
+    for (int i=0; i<lws.size(); ++i) {
+        amrex::Print() << "(" << i << ": " << lws[i].total() << "), ";
     }
     amrex::Print() << std::endl;
 
-    Sort(wbr);
+    Sort(lws, LB::SortOrder::Descend);
 
     amrex::Print() << " Sorted descending: " << std::endl;
-    for (int i=0; i<wbr.size(); ++i) {
-        amrex::Print() << "(" << i << ": " << wbr[i].weight() << "), ";
+    for (int i=0; i<lws.size(); ++i) {
+        amrex::Print() << "(" << i << ": " << lws[i].total() << "), ";
     }
     amrex::Print() << std::endl;
 

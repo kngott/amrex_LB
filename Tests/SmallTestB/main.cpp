@@ -9,7 +9,7 @@
 #include <LB_Sort.H>
 #include <LB_Mapping.H>
 #include <LB_WeightedIndex.H>
-#include <LB_WeightedBoxList.H>
+#include <LB_WeightedSets.H>
 //#include <LB_RoundRobin.H>
 
 //#include <Knapsack.H>
@@ -87,33 +87,33 @@ void main_main() {
 
     // WeightedRanks
     // ========================
-    std::vector<LB::WeightedBoxList> wbr(3);
+    LB::LongWeightSets sets(3);
 
     for (int i=0; i<20; ++i) {
         int r = amrex::Random_int(3);
         LongWeight wb(i, amrex::RandomNormal(1000, 100));
-        wbr[r].push_back(wb);
+        sets[r].add(wb);
     }
 
     amrex::Print() << " Unsorted: " << std::endl;
-    for (int i=0; i<wbr.size(); ++i) {
-        amrex::Print() << "(" << i << ": " << wbr[i].weight() << "), ";
+    for (int i=0; i<sets.size(); ++i) {
+        amrex::Print() << "(" << i << ": " << sets[i].total() << "), ";
     }
     amrex::Print() << std::endl;
 
-    Sort(wbr, SortOrder::Ascend);
+    Sort(sets, LB::SortOrder::Ascend);
 
     amrex::Print() << " Sorted ascending: " << std::endl;
-    for (int i=0; i<wbr.size(); ++i) {
-        amrex::Print() << "(" << i << ": " << wbr[i].weight() << "), ";
+    for (int i=0; i<sets.size(); ++i) {
+        amrex::Print() << "(" << i << ": " << sets[i].total() << "), ";
     }
     amrex::Print() << std::endl;
 
-    Sort(wbr);
+    Sort(sets, LB::SortOrder::Descend);
 
     amrex::Print() << " Sorted descending: " << std::endl;
-    for (int i=0; i<wbr.size(); ++i) {
-        amrex::Print() << "(" << i << ": " << wbr[i].weight() << "), ";
+    for (int i=0; i<sets.size(); ++i) {
+        amrex::Print() << "(" << i << ": " << sets[i].total() << "), ";
     }
     amrex::Print() << std::endl;
 
