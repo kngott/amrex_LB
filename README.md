@@ -180,5 +180,5 @@ Plus, the BoxLib and AMReX authors of the original load balancing algorithms.
 5. **University of California San Diego (Boolean Lab)**
 6. **The University of Alabama**
 7. **University of Utah**
-8. **Texas Tech University**
-9. **University of California Santa Cruz**
+8. **University of California Santa Cruz**
+9. **Texas Tech University**
