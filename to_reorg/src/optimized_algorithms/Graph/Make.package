@@ -1,0 +1,5 @@
+#CEXE_headers += 
+CEXE_sources += main.cpp graph.cpp subgraph.cpp edge_gain.cpp
+
+INCLUDE_LOCATIONS += $(AMREX_LB_GRAPH) 
+INCLUDE_LOCATIONS += $(AMREX_LB_HOME)
