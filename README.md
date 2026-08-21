@@ -167,7 +167,8 @@ Md Kamal Chowdhury\
 Amitash Nanda \
 Hannah Ross \
 Sowmya Yellapragada \
-Jessica Dagostini
+Jessica Dagostini \
+Onengiyeofori Harry
 
 Plus, the BoxLib and AMReX authors of the original load balancing algorithms.
 
@@ -180,3 +181,4 @@ Plus, the BoxLib and AMReX authors of the original load balancing algorithms.
 6. **The University of Alabama**
 7. **University of Utah**
 8. **University of California Santa Cruz**
+9. **Texas Tech University**
